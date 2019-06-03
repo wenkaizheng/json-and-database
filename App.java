@@ -33,8 +33,10 @@ public class App {
     // iterate loop
     db database =new db();
     if(database.create()==1) {
-    	return ;
+    	System.out.println("The database is already exist");
+    	
     }
+    else {
     for (int i = 0; i < jsonArray.length(); i++) {
 
         JSONObject obj = jsonArray.getJSONObject(i);
@@ -50,10 +52,11 @@ public class App {
         
         database.insert(init,i);
         
-        
+    }
         
       
     }
+    database.search("Acrid");
   }
 
 }
