@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class App {
   
 
-  public static String getText(String url) throws Exception {
+  public String getText(String url) throws Exception {
     URL website = new URL(url);
     URLConnection connection = website.openConnection();
     BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF8"));
@@ -22,7 +22,7 @@ public class App {
     return response.toString();
   }
 
-  public static void main(String[] args) throws Exception {
+  public void apiReader()throws Exception {
 
     System.setProperty("http.agent", "Chrome");
     JSONArray jsonArray = new JSONArray(getText("https://api.warframestat.us/weapons"));
@@ -48,7 +48,7 @@ public class App {
         String des = obj.getString("description");
 
         weapon init =new weapon(name, damage, persecond, accuracy, des);
-       // System.out.println(init);
+      
         
         database.insert(init,i);
         
@@ -56,7 +56,7 @@ public class App {
         
       
     }
-    database.search("Acrid");
+  
   }
 
 }

@@ -49,7 +49,7 @@ public class searchUI extends Application {
 					// implements TODO
 					if(tf1.getText().length()!=0) {
 						// we need to do the search with db
-						System.out.println("yes");
+						show.setText(db.search(tf1.getText()));
 					}
 				}
 		 });

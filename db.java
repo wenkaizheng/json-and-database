@@ -11,15 +11,15 @@ public class db {
 	// Database credentials
 	static final String USER = "root";
 	static final String PASS = "123456";
-	public Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	public Statement stmt = conn.createStatement();
+	public static Connection conn ;
+	public static Statement stmt ;
 
 	public db() throws SQLException {
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();
 	}
 
-	public String search(String name) {
+	public static String search(String name) {
 		String inf = null;
 		String sql = "USE wuqiku";
 		try {
