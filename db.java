@@ -34,8 +34,10 @@ public class db {
 					inf = new String("");
 					inf += String.format(
 							"The name is %s\nand description is %s\n" + "and accuracy is %d\n" + "and demage is %d\n"
-									+ "and secondsPerShot is %f",
-							name, rs.getString("de"), rs.getInt("acc"), rs.getInt("damage"), rs.getDouble("persecond"));
+									+ "and price is %d\n"+"and secondsPerShot is %f",
+							name, rs.getString("de"), rs.getInt("acc"), rs.getInt("damage"), 
+							rs.getInt("price"),rs.getDouble("persecond"));
+							
 					break;
 				}
 			}
@@ -58,6 +60,7 @@ public class db {
 		double shot = w.persecond;
 		int acc = w.accuracy;
 		String des = w.des;
+		int bp =w.price;
 		String sql = "USE wuqiku";
 		try {
 			stmt.executeUpdate(sql);
@@ -73,8 +76,8 @@ public class db {
 			// he does't like it -> he does 't like it
 			des = des.replace("'", "''");
 		}
-		sql = String.format("INSERT INTO Registration VALUES (%d, '%s', %d, %f, %d, '%s')", num, name, dam, shot, acc,
-				des);
+		sql = String.format("INSERT INTO Registration VALUES (%d, '%s', %d, %f, %d, '%s',%d)", num, name, dam, shot, acc,
+				des,bp);
 		System.out.println(sql);
 		// if (stmt != null) {
 		try {
@@ -140,7 +143,7 @@ public class db {
 
 			String column = "CREATE TABLE REGISTRATION " + "(id INTEGER not NULL, " + " name VARCHAR(255), "
 					+ " damage INTEGER, " + " persecond DOUBLE, " + " acc INTEGER, " + " de VARCHAR(1024), "
-					+ " PRIMARY KEY ( id ))";
+					+" price INTEGER ,"+ " PRIMARY KEY ( id ))";
 			stmt.executeUpdate(column);
 
 			System.out.println("Database created successfully...");

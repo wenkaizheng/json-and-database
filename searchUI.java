@@ -49,6 +49,7 @@ public class searchUI extends Application {
 					// implements TODO
 					if(tf1.getText().length()!=0) {
 						// we need to do the search with db
+						
 						show.setText(db.search(tf1.getText()));
 					}
 				}
@@ -68,7 +69,7 @@ public class searchUI extends Application {
 	private void insertIntroduce(VBox vbox) {
 		// TODO Auto-generated method stub
 		HBox hbox1 =new HBox();
-		Text t1 =new Text("Welcome to weapons search");
+		Text t1 =new Text("Welcome to weapons search database");
 		t1.setFont(Font.font("Verdana",20));
 		t1.setFill(Color.RED);
 		hbox1.getChildren().add(t1);

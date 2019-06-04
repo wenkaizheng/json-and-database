@@ -6,12 +6,14 @@ public class weapon {
       public double persecond;
       public int accuracy;
       public String des;
-      weapon(String n,int d,double p,int a,String de){
+      public int price;
+      weapon(String n,int d,double p,int a,String de,int bp){
     	  name=n;
     	  damage=d;
     	  persecond=p;
     	  accuracy=a;
     	  des=de;
+    	  price=bp;
       }
       @Override
       public String toString() { 

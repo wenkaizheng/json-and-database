@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 public class App {
   
@@ -46,8 +47,15 @@ public class App {
         double persecond = obj.getDouble("secondsPerShot");
         int accuracy = obj.getInt("accuracy");
         String des = obj.getString("description");
+        int bp=0;
+        try {
+           bp =obj.getInt("buildPrice");
+        }
+        catch(JSONException ex) {
+        	System.out.println("this weapon does not have price\n");
+        }
 
-        weapon init =new weapon(name, damage, persecond, accuracy, des);
+        weapon init =new weapon(name, damage, persecond, accuracy, des,bp);
       
         
         database.insert(init,i);
