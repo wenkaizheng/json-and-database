@@ -35,13 +35,10 @@ public class App {
     //String Name = read.nextLine();
     // iterate loop
     db database =new db();
-    if(database.create()==1) {
-    	System.out.println("The database is already exist");
-    	return ;
-    	
-    }
+    database.create();
     
-    else {
+    
+  
     for (int i = 0; i < jsonArray.length(); i++) {
 
         JSONObject obj = jsonArray.getJSONObject(i);
@@ -68,7 +65,7 @@ public class App {
     
         
       
-    }
+    
   
   }
 

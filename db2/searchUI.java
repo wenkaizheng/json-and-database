@@ -20,6 +20,9 @@ public class searchUI extends Application {
 	private TextArea show;
 	//private String   aim =null;
 	private TextField tf1;
+	private TextField smallerBound;
+	private TextField biggerBound;
+	
 	
 	public static void main(String[] args) {
 
@@ -30,6 +33,7 @@ public class searchUI extends Application {
 		 primaryStage.setTitle("DataBase Searcher");
 		 VBox vbox = new VBox();
 		 insertIntroduce(vbox);
+		 insertPrice(vbox);
 		 insertName(vbox);
 		 insertEnter(vbox);
 		 Scene scene = new Scene(vbox, 574, 616);
@@ -90,6 +94,38 @@ public class searchUI extends Application {
 		
 		
 		
+	}
+	private void insertPrice(VBox vbox) {
+        HBox hbox1 =new HBox();
+		
+		Text ask1 =new Text("type the price of weapons is between ");
+		smallerBound=new TextField("0");
+		Text and  =new Text(" and ");
+		biggerBound =new TextField("10000");
+		Button click =new Button("Click");
+		click.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent me) {
+				// implements TODO
+				try {
+				int smaller  =new Integer(smallerBound.getText());
+				int bigger   =new Integer(biggerBound.getText());
+				show.setText(db.searchByNumber(smaller, bigger));
+				
+				}
+				catch(Exception ex) {
+					///  need to have a alert
+				}
+				
+			}
+	 });
+		hbox1.getChildren().add(ask1);
+		hbox1.getChildren().add(smallerBound);
+		hbox1.getChildren().add(and);
+		hbox1.getChildren().add(biggerBound);
+		hbox1.getChildren().add(click);
+		hbox1.setPadding(new Insets(6, 6, 6, 6));
+		vbox.getChildren().add(hbox1);
 	}
 
 }

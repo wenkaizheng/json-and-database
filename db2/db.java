@@ -25,28 +25,57 @@ public class db {
 	       
 	       
 	}
-
+    public static String searchByNumber(int smaller, int bigger)  {
+    	System.out.println(smaller+" "+bigger);
+		String sql =String.format
+		("select * from Registration where price < %d and price > %d",bigger,smaller);
+		
+		String inf =new String("");
+		int i =1;
+		try {
+			 ResultSet rs = stmt.executeQuery(sql);
+			
+			 while(rs.next()) {
+			    
+		      inf+=(i++%3==0)?rs.getString("name")+"\r\n" : rs.getString("name")+"  ";
+			 }
+			 System.out.println(inf+"ha");
+			 return inf;
+			    
+						  
+			
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return inf;
+		
+		
+		
+	}
 	public static String search(String name) {
 		String inf = null;
 		//String sql = "USE wuqiku";
 		try {
 			//stmt.executeUpdate(sql);
-			String sql = "select * from Registration";
+			String sql = String.format
+					("select * from Registration where name = '%s'",name);
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				String weaponName = rs.getString("name");
+				//String weaponName = rs.getString("name");
 				// System.out.println()
-				if (weaponName.equals(name)) {
-					System.out.println("we found this weapon");
-					inf = new String("");
-					inf += String.format(
-							"The name is %s\nand description is %s\n" + "and accuracy is %d\n" + "and demage is %d\n"
-									+ "and price is %d\n"+"and secondsPerShot is %f",
-							name, rs.getString("de"), rs.getInt("acc"), rs.getInt("damage"), 
-							rs.getInt("price"),rs.getDouble("persecond"));
+				//if (weaponName.equals(name)) {
+				System.out.println("we found this weapon");
+				inf = new String("");
+				inf += String.format(
+					"The name is %s\nand description is %s\n" + "and accuracy is %d\n" + "and demage is %d\n"
+					+ "and price is %d\n"+"and secondsPerShot is %f",
+					name, rs.getString("de"), rs.getInt("acc"), rs.getInt("damage"), 
+					rs.getInt("price"),rs.getDouble("persecond"));
 							
-					break;
-				}
+					//break;
+				//}
 			}
 
 		} catch (SQLException e1) {
@@ -83,23 +112,21 @@ public class db {
 	
 
 	}
-
+    public static int exist() {
+    	File database =new File("weaponsZheng");
+    	if(!database.exists())
+    		return 1;
+    	else if(database.exists() && database.isDirectory())
+    		return 0;
+    	return 1;
+    }
 	public int create() {
 
 		try {
 		    
 			System.out.println("Creating database...");
-			File file =new File("beta.txt");
-
-		     // check if the database is already create
-		    if(!file.exists()){
-		       file.createNewFile();
-		     }
-		    else  return 1;
-
 			
-
-			String column = "CREATE TABLE REGISTRATION " + "(id INTEGER not NULL, " + " name VARCHAR(255), "
+            String column = "CREATE TABLE REGISTRATION " + "(id INTEGER not NULL, " + " name VARCHAR(255), "
 					+ " damage INTEGER, " + " persecond DOUBLE, " + " acc INTEGER, " + " de VARCHAR(1024), "
 					+" price INTEGER ,"+ " PRIMARY KEY ( id ))";
 			stmt.executeUpdate(column);
@@ -115,4 +142,6 @@ public class db {
 		System.out.println("Goodbye!");
 		return 0;
 	}// end main
+
+	
 }// end JDBCExample
