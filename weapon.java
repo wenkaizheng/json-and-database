@@ -1,4 +1,4 @@
-package database.db1;
+package database.db2;
 
 public class weapon {
       public String name;
