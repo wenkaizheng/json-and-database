@@ -1,6 +1,6 @@
 package database.db1;
 
-import javafx.application.Application;
+
 
 public class Main {
 	public static void main(String[] args) {
@@ -11,7 +11,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        Application.launch(searchUI.class, args);
+     //   Application.launch(searchUI.class, args);
         
 
 

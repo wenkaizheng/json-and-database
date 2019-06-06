@@ -1,17 +1,15 @@
-package database.db2;
+package database.db1;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.SQLException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 public class App {
   
 
-  public  String getText(String url) throws Exception {
+  public String getText(String url) throws Exception {
     URL website = new URL(url);
     URLConnection connection = website.openConnection();
     BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF8"));
@@ -25,7 +23,7 @@ public class App {
     return response.toString();
   }
 
-  public void apiReader() throws JSONException, Exception {
+  public void apiReader()throws Exception {
 
     System.setProperty("http.agent", "Chrome");
     JSONArray jsonArray = new JSONArray(getText("https://api.warframestat.us/weapons"));
@@ -35,10 +33,11 @@ public class App {
     //String Name = read.nextLine();
     // iterate loop
     db database =new db();
-    database.create();
-    
-    
-  
+    if(database.create()==1) {
+    	System.out.println("The database is already exist");
+    	
+    }
+    else {
     for (int i = 0; i < jsonArray.length(); i++) {
 
         JSONObject obj = jsonArray.getJSONObject(i);
@@ -62,10 +61,9 @@ public class App {
         database.insert(init,i);
         
     }
-    
         
       
-    
+    }
   
   }
 
