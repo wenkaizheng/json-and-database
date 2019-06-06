@@ -1,6 +1,13 @@
 package database.db2;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
@@ -8,7 +15,7 @@ import java.sql.SQLException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-public class App {
+public class App implements Serializable {
   
 
   public  String getText(String url) throws Exception {
@@ -21,21 +28,52 @@ public class App {
       response.append(inputLine);
 
     in.close();
+    String now  =response.toString();
+    File file =new File("saveData");
+    if(file.exists()) {
+    	// we need to compare to check do we need to update or not
+    	try {
+    		ObjectInputStream objectInputStream =
+    	            new ObjectInputStream(new FileInputStream("saveData"));
+            String previous =(String)objectInputStream.readObject();
+            objectInputStream.close();
+            if(now.equals(previous))
+            	return null;
 
-    return response.toString();
+         } catch(IOException e) {
+        	 
+         }
+    	
+    }
+    else {
+    try {
+     	ObjectOutputStream objectOutputStream =
+                 new ObjectOutputStream(new FileOutputStream("saveData"));
+     	objectOutputStream.writeObject(response.toString());
+         objectOutputStream.close();         
+
+     } catch(IOException e) {
+     }
+    }
+    return now;
   }
 
   public void apiReader() throws JSONException, Exception {
 
     System.setProperty("http.agent", "Chrome");
-    JSONArray jsonArray = new JSONArray(getText("https://api.warframestat.us/weapons"));
+    db.startConnect();
+    String data =getText("https://api.warframestat.us/weapons");
+    if (data ==null)
+    	return;
+    JSONArray jsonArray = new JSONArray(data);
     System.out.printf("Welcome to star war weapon search page there are totally %d weapon to choose\n",
         jsonArray.length());
    // Scanner read = new Scanner(System.in);
     //String Name = read.nextLine();
     // iterate loop
-    db database =new db();
-    database.create();
+    
+   
+    db.create();
     
     
   
@@ -59,7 +97,7 @@ public class App {
         weapon init =new weapon(name, damage, persecond, accuracy, des,bp);
       
         
-        database.insert(init,i);
+        db.insert(init,i);
         
     }
     

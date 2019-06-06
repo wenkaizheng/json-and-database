@@ -12,8 +12,10 @@ public class db {
 	
 	public static Connection conn ;
 	public static Statement stmt ;
-
-	public db() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public static void delete() {
+    	
+    }
+	public static void startConnect() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		    String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 	        String url = "jdbc:derby:";
 	        Class.forName(driver).newInstance();
@@ -86,7 +88,7 @@ public class db {
 		return inf;
 	}
 
-	public void insert(weapon w, int num) {
+	public static void insert(weapon w, int num) {
 		
 		String name = w.name;
 		int dam = w.damage;
@@ -112,15 +114,8 @@ public class db {
 	
 
 	}
-    public static int exist() {
-    	File database =new File("weaponsZheng");
-    	if(!database.exists())
-    		return 1;
-    	else if(database.exists() && database.isDirectory())
-    		return 0;
-    	return 1;
-    }
-	public int create() {
+   
+	public static int create() {
 
 		try {
 		    
