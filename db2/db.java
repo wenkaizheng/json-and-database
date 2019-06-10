@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class db {
@@ -27,21 +29,22 @@ public class db {
 	       
 	       
 	}
-    public static String searchByNumber(int smaller, int bigger)  {
+    public static List<String> searchByNumber(int smaller, int bigger)  {
     	System.out.println(smaller+" "+bigger);
 		String sql =String.format
 		("select * from Registration where price < %d and price > %d",bigger,smaller);
 		
-		String inf =new String("");
-		int i =1;
+		List<String> inf =new ArrayList<String>();
+		//int i =1;
 		try {
 			 ResultSet rs = stmt.executeQuery(sql);
 			
 			 while(rs.next()) {
 			    
-		      inf+=(i++%3==0)?rs.getString("name")+"\r\n" : rs.getString("name")+"  ";
+		     // inf+=(i++%3==0)?rs.getString("name")+"\r\n" : rs.getString("name")+"  ";
+				 inf.add(rs.getString("name"));
 			 }
-			 System.out.println(inf+"ha");
+			// System.out.println(inf+"ha");
 			 return inf;
 			    
 						  

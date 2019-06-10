@@ -1,4 +1,6 @@
 package database.db2;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -6,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +25,8 @@ public class searchUI extends Application {
 	private TextField tf1;
 	private TextField smallerBound;
 	private TextField biggerBound;
+	private VBox screen ;
+	private ScrollPane pane; 
 	
 	
 	public static void main(String[] args) {
@@ -33,15 +38,27 @@ public class searchUI extends Application {
 		 primaryStage.setTitle("DataBase Searcher");
 		 VBox vbox = new VBox();
 		 insertIntroduce(vbox);
-		 insertPrice(vbox);
 		 insertName(vbox);
 		 insertEnter(vbox);
-		 Scene scene = new Scene(vbox, 574, 616);
+		 Scene scene = new Scene(vbox,600,600);
 		 show =new TextArea("No result yet");
+		 screen =new VBox();
+		 //screen =new TextArea();
 		 insertResult(vbox,show);
+		 insertPrice(vbox);
+		 pane =new ScrollPane();
+		 pane.setContent(screen);
+		 pane.setPrefViewportHeight(100);
+		 System.out.println(pane.getPadding());
+		 pane.setVisible(false);
+		 VBox tagbox =new VBox();
+		 tagbox.setPadding(new Insets(6, 6, 6, 6));
+		 tagbox.getChildren().add(pane);
+		 vbox.getChildren().add(tagbox);
+		 //vbox.setPadding(new Insets(6, 6, 6, 6));
 	     primaryStage.setScene(scene);
 	     primaryStage.setResizable(false);
-	     primaryStage.alwaysOnTopProperty();
+	     primaryStage.setAlwaysOnTop(true);
 	     primaryStage.show();
 	}
 	private void insertEnter(VBox vbox) {
@@ -110,7 +127,9 @@ public class searchUI extends Application {
 				try {
 				int smaller  =new Integer(smallerBound.getText());
 				int bigger   =new Integer(biggerBound.getText());
-				show.setText(db.searchByNumber(smaller, bigger));
+				//show.setText(db.searchByNumber(smaller, bigger));
+				screen.getChildren().clear();
+				showAllButtons(db.searchByNumber(smaller, bigger));
 				
 				}
 				catch(Exception ex) {
@@ -126,6 +145,34 @@ public class searchUI extends Application {
 		hbox1.getChildren().add(click);
 		hbox1.setPadding(new Insets(6, 6, 6, 6));
 		vbox.getChildren().add(hbox1);
+	}
+	protected void showAllButtons(List<String> coll) {
+		int count =0;
+		HBox row =new HBox();
+		System.out.println(coll.size());
+		for(String name:coll) {
+			final Button tag =new Button(name);
+		//	tag.setPadding(new Insets(5));
+		 	
+			tag.setOnAction(new EventHandler<ActionEvent>() {
+
+				public void handle(ActionEvent me) {
+					show.setText(db.search(tag.getText()));
+				}
+			});
+			if(count %10==0 ) {
+				screen.getChildren().add(row);
+				row =new HBox();
+				row.getChildren().add(tag);
+			}
+			else
+				row.getChildren().add(tag);
+			count++;
+			
+		}
+		if(count%10!=0)
+			screen.getChildren().add(row);
+		pane.setVisible(true);
 	}
 
 }
