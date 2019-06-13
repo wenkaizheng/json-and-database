@@ -80,6 +80,7 @@ public class App implements Serializable {
     for (int i = 0; i < jsonArray.length(); i++) {
 
         JSONObject obj = jsonArray.getJSONObject(i);
+        System.out.println(obj);
         String name = obj.getString("name");
       
         int damage = obj.getInt("totalDamage");
@@ -93,8 +94,19 @@ public class App implements Serializable {
         catch(JSONException ex) {
         	System.out.println("this weapon does not have price\n");
         }
-
-        weapon init =new weapon(name, damage, persecond, accuracy, des,bp);
+       
+        String url =new String("");
+        try {
+        	 
+             JSONArray ja =obj.getJSONArray("patchlogs");
+             JSONObject newObj=ja.getJSONObject(0);
+             url =newObj.getString("imgUrl");
+         }
+         catch(JSONException ex) {
+         	System.out.println("this weapon does not have imgurl\n");
+         }
+        
+        weapon init =new weapon(name, damage, persecond, accuracy, des,bp,url);
       
         
         db.insert(init,i);

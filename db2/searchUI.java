@@ -1,4 +1,7 @@
 package database.db2;
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javafx.application.Application;
@@ -50,16 +53,56 @@ public class searchUI extends Application {
 		 pane.setContent(screen);
 		 pane.setPrefViewportHeight(100);
 		 System.out.println(pane.getPadding());
-		 pane.setVisible(false);
+		 //pane.setVisible(false);
 		 VBox tagbox =new VBox();
 		 tagbox.setPadding(new Insets(6, 6, 6, 6));
 		 tagbox.getChildren().add(pane);
 		 vbox.getChildren().add(tagbox);
+		 insertImage(vbox);
 		 //vbox.setPadding(new Insets(6, 6, 6, 6));
 	     primaryStage.setScene(scene);
 	     primaryStage.setResizable(false);
 	     primaryStage.setAlwaysOnTop(true);
 	     primaryStage.show();
+	}
+	private boolean openWebpage(URI uri) {
+	    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+	    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+	        try {
+	            desktop.browse(uri);
+	            return true;
+	        } catch (Exception e) {
+	        	
+	            e.printStackTrace();
+	        }
+	    }
+	    return false;
+	}
+
+	private void insertImage(VBox vbox) {
+		 HBox hbox1 =new HBox();
+		 Button button =new Button("Show image");
+		 button.setOnAction(new EventHandler<ActionEvent>() {
+
+				public void handle(ActionEvent me) {
+					try {
+						if(!tf1.getText().isEmpty()) {
+						String url =db.getUrl(tf1.getText());
+						if(url.isEmpty()) {
+							System.out.println("This image is not avaliable");
+							return ;
+						}
+						openWebpage(new URI(url));
+						}
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+		 });
+		 hbox1.getChildren().add(button);
+		 hbox1.setPadding(new Insets(6, 6, 6, 6));
+		 vbox.getChildren().add(hbox1);
 	}
 	private void insertEnter(VBox vbox) {
 		// TODO Auto-generated method stub
@@ -158,6 +201,7 @@ public class searchUI extends Application {
 
 				public void handle(ActionEvent me) {
 					show.setText(db.search(tag.getText()));
+					tf1.setText(tag.getText());
 				}
 			});
 			if(count %10==0 ) {
@@ -172,7 +216,7 @@ public class searchUI extends Application {
 		}
 		if(count%10!=0)
 			screen.getChildren().add(row);
-		pane.setVisible(true);
+		//pane.setVisible(true);
 	}
 
 }

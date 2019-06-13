@@ -59,6 +59,24 @@ public class db {
 		
 		
 	}
+    public static String getUrl(String name) {
+    	String inf = null;
+		try {
+			//stmt.executeUpdate(sql);
+			String sql = String.format
+					("select * from Registration where name = '%s'",name);
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				return rs.getString("url");
+			}
+
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(inf);
+		return inf;
+    }
 	public static String search(String name) {
 		String inf = null;
 		//String sql = "USE wuqiku";
@@ -99,13 +117,15 @@ public class db {
 		int acc = w.accuracy;
 		String des = w.des;
 		int bp =w.price;
+		String url =w.url;
 		
 		if (des.contains("'")) {
-			// he does't like it -> he does 't like it
+			// he does't like it -> he does''t like it
 			des = des.replace("'", "''");
 		}
-		String sql = String.format("INSERT INTO Registration VALUES (%d, '%s', %d, %f, %d, '%s',%d)", num, name, dam, shot, acc,
-				des,bp);
+		String sql = String.format("INSERT INTO Registration VALUES (%d, '%s', %d, %f, %d, '%s',%d,'%s')", 
+				num, name, dam, shot, acc,
+				des,bp,url);
 		System.out.println(sql);
 		
 		try {
@@ -126,7 +146,8 @@ public class db {
 			
             String column = "CREATE TABLE REGISTRATION " + "(id INTEGER not NULL, " + " name VARCHAR(255), "
 					+ " damage INTEGER, " + " persecond DOUBLE, " + " acc INTEGER, " + " de VARCHAR(1024), "
-					+" price INTEGER ,"+ " PRIMARY KEY ( id ))";
+					+" price INTEGER,"+" url VARCHAR(1024), "
+					+ " PRIMARY KEY ( id ))";
 			stmt.executeUpdate(column);
 
 			System.out.println("Database created successfully...");
