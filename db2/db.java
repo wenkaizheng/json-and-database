@@ -15,7 +15,13 @@ public class db {
 	public static Connection conn ;
 	public static Statement stmt ;
     public static void delete() {
-    	
+    	String sql ="DROP TABLE REGISTRATION";
+    	try {
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	public static void startConnect() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		    String driver = "org.apache.derby.jdbc.EmbeddedDriver";

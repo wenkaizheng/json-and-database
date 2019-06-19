@@ -39,6 +39,11 @@ public class App implements Serializable {
             objectInputStream.close();
             if(now.equals(previous))
             	return null;
+            ObjectOutputStream objectOutputStream =
+                    new ObjectOutputStream(new FileOutputStream("saveData"));
+        	objectOutputStream.writeObject(response.toString());
+            objectOutputStream.close();    
+            db.delete();
 
          } catch(IOException e) {
         	 
