@@ -38,7 +38,7 @@ public class db {
     public static List<String> searchByNumber(int smaller, int bigger)  {
     	System.out.println(smaller+" "+bigger);
 		String sql =String.format
-		("select * from Registration where price < %d and price > %d",bigger,smaller);
+		("select * from Registration where price between %d and %d",smaller,bigger);
 		
 		List<String> inf =new ArrayList<String>();
 		//int i =1;
