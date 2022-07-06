@@ -43,7 +43,7 @@
 			<artifactId>derby</artifactId>
 
 
-			<version>10.2.2.0</version>
+			<version>10.14.2.0</version>
 
 
 		</dependency>
